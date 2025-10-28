@@ -1,0 +1,2473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Link</title>
+    <link rel="icon" href="local link icon2.png">
+    <style>
+        :root {
+            --gold-primary: #FFD700;
+            --gold-dark: #C5A200;
+            --gold-light: #FFE44D;
+            --black: #121212;
+            --gray-dark: #222222;
+            --gray-light: #444444;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--gold-primary);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--gold-primary);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: var(--gold-primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+        }
+
+        /* Auth Box Styles */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .auth-box {
+            background-color: var(--gold-primary);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            color: var(--black);
+            border: 3px solid var(--gold-dark);
+        }
+
+        .auth-box:hover {
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+        }
+
+        .auth-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--black);
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            color: var(--black);
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .auth-tab.active {
+            color: var(--black);
+            border-bottom: 3px solid var(--black);
+        }
+
+        .auth-tab:hover {
+            color: var(--gray-dark);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--black);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: var(--black);
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--black);
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+            background-color: white;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            background-color: var(--gray-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Dashboard Styles */
+        .dashboard {
+            display: none;
+            padding: 30px 20px;
+        }
+
+        .dashboard-title {
+            text-align: center;
+            color: var(--gold-primary);
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .option-card {
+            background-color: var(--gold-primary);
+            border-radius: 15px;
+            width: 350px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            color: var(--black);
+            border: 3px solid var(--gold-dark);
+        }
+
+        .option-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .option-icon {
+            font-size: 3.5rem;
+            color: var(--black);
+            margin-bottom: 25px;
+        }
+
+        .option-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--black);
+            font-weight: 800;
+        }
+
+        .option-desc {
+            color: var(--gray-dark);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        /* Book Helper Styles */
+        .book-helper, .work-helper, .my-bookings {
+            display: none;
+            padding: 30px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--gold-primary);
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-card {
+            background-color: var(--gold-primary);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid var(--gold-dark);
+            color: var(--black);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .service-card.selected {
+            background-color: var(--white);
+            color: var(--black);
+            border: 3px solid var(--white);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--black);
+            margin-bottom: 20px;
+        }
+
+        .service-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: inherit;
+            font-weight: 800;
+        }
+
+        .booking-form {
+            background-color: var(--gold-primary);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            color: var(--black);
+            border: 3px solid var(--gold-dark);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .submit-btn {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--gray-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Location Options */
+        .location-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .location-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--black);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: var(--black);
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .location-option:hover {
+            background-color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .location-option.selected {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border-color: var(--black);
+        }
+
+        .location-btn {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .location-btn:hover {
+            background-color: var(--gray-dark);
+            transform: translateY(-2px);
+        }
+
+        .location-btn:disabled {
+            background-color: var(--gray-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .location-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .location-status.success {
+            background-color: rgba(0, 255, 0, 0.1);
+            color: #00aa00;
+            border: 1px solid #00aa00;
+        }
+
+        .location-status.error {
+            background-color: rgba(255, 0, 0, 0.1);
+            color: #ff4444;
+            border: 1px solid #ff4444;
+        }
+
+        .location-status.info {
+            background-color: rgba(0, 150, 255, 0.1);
+            color: #0096ff;
+            border: 1px solid #0096ff;
+        }
+
+        .location-status.warning {
+            background-color: rgba(255, 165, 0, 0.1);
+            color: #ff8c00;
+            border: 1px solid #ff8c00;
+        }
+
+        /* Helper Registration */
+        .helper-form {
+            background-color: var(--gold-primary);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--black);
+            border: 3px solid var(--gold-dark);
+        }
+
+        /* Helpers List */
+        .helpers-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .helper-card {
+            background-color: var(--gold-primary);
+            border-radius: 15px;
+            padding: 30px;
+            border: 3px solid var(--gold-dark);
+            transition: all 0.3s ease;
+            color: var(--black);
+        }
+
+        .helper-card.booked {
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .helper-card.booked::after {
+            content: "BOOKED";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            color: var(--gold-primary);
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .helper-name {
+            font-size: 1.6rem;
+            color: var(--black);
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .helper-detail {
+            margin-bottom: 12px;
+            display: flex;
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: var(--gray-dark);
+            min-width: 150px;
+            font-size: 1.1rem;
+        }
+
+        .detail-value {
+            color: var(--black);
+            font-weight: 600;
+        }
+
+        .book-helper-btn {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .book-helper-btn:hover {
+            background-color: var(--gray-dark);
+            transform: translateY(-3px);
+        }
+
+        .book-helper-btn:disabled {
+            background-color: var(--gray-light);
+            cursor: not-allowed;
+            color: var(--white);
+        }
+
+        /* My Bookings */
+        .bookings-list {
+            margin-top: 40px;
+        }
+
+        .booking-card {
+            background-color: var(--gold-primary);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            color: var(--black);
+            border: 3px solid var(--gold-dark);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--black);
+            padding-bottom: 15px;
+            align-items: center;
+        }
+
+        .booking-service {
+            font-size: 1.6rem;
+            color: var(--black);
+            font-weight: 800;
+        }
+
+        .booking-status {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .booking-detail {
+            margin-bottom: 15px;
+        }
+
+        .booking-label {
+            font-weight: 700;
+            color: var(--gray-dark);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .booking-value {
+            color: var(--black);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .helper-phone {
+            font-weight: 700;
+            color: var(--black);
+            margin-top: 15px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 1.2rem;
+            border: 2px solid var(--black);
+        }
+
+        /* Rating Section */
+        .rating-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid var(--black);
+        }
+
+        .rating-btn {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .rating-btn:hover {
+            background-color: var(--gray-dark);
+            transform: translateY(-2px);
+        }
+
+        .rating-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 2px solid var(--black);
+            display: none;
+        }
+
+        .rating-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .star {
+            font-size: 2.5rem;
+            cursor: pointer;
+            color: #ddd;
+            transition: all 0.2s ease;
+        }
+
+        .star:hover,
+        .star.active {
+            color: var(--gold-primary);
+            transform: scale(1.2);
+        }
+
+        .rating-text {
+            text-align: center;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .rating-comment {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--black);
+            border-radius: 8px;
+            background-color: white;
+            color: var(--black);
+            font-size: 1rem;
+            font-weight: 600;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .rating-comment:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-rating-btn {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-self: center;
+        }
+
+        .submit-rating-btn:hover {
+            background-color: var(--gray-dark);
+            transform: translateY(-2px);
+        }
+
+        .rating-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            border: 1px solid var(--black);
+        }
+
+        .rating-value {
+            font-weight: 700;
+            color: var(--black);
+            font-size: 1.1rem;
+        }
+
+        .rating-comment-display {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            border: 1px solid var(--black);
+            color: var(--black);
+            font-style: italic;
+        }
+
+        /* Helper Rating Stats */
+        .helper-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .average-rating {
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .rating-count {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+
+        /* Messaging Section */
+        .message-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid var(--black);
+        }
+
+        .message-btn {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .message-btn:hover {
+            background-color: var(--gray-dark);
+            transform: translateY(-2px);
+        }
+
+        .message-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 2px solid var(--black);
+            display: none;
+        }
+
+        .messages-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            background-color: var(--gold-light);
+            margin-left: auto;
+            border: 1px solid var(--gold-dark);
+        }
+
+        .message.helper {
+            background-color: rgba(0, 0, 0, 0.1);
+            margin-right: auto;
+            border: 1px solid var(--black);
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--black);
+            border-radius: 8px;
+            background-color: white;
+            color: var(--black);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .message-input:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .send-message-btn {
+            background-color: var(--black);
+            color: var(--gold-primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-message-btn:hover {
+            background-color: var(--gray-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background-color: var(--gold-primary);
+            color: var(--black);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: 2px solid var(--gold-dark);
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background-color: #ff4444;
+            color: white;
+        }
+
+        .notification.success {
+            background-color: var(--gold-primary);
+            color: var(--black);
+        }
+
+        .notification.info {
+            background-color: #33b5e5;
+            color: white;
+        }
+
+        /* Back Button */
+        .back-btn {
+            background-color: transparent;
+            color: var(--gold-primary);
+            border: 2px solid var(--gold-primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+           
+            .logo {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-link {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+
+            .auth-box {
+                padding: 30px;
+            }
+
+            .option-card {
+                width: 100%;
+                max-width: 400px;
+                padding: 30px 20px;
+            }
+
+            .dashboard-title, .section-title {
+                font-size: 2rem;
+            }
+
+            .location-options {
+                flex-direction: column;
+            }
+
+            .booking-details {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-stars {
+                gap: 5px;
+            }
+
+            .star {
+                font-size: 2rem;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.8rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 5px;
+                align-items: flex-end;
+            }
+
+            .auth-box {
+                padding: 25px;
+            }
+
+            .helper-form {
+                padding: 25px;
+            }
+
+            .helpers-list {
+                grid-template-columns: 1fr;
+            }
+
+            .message-input-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Navigation -->
+        <header id="mainHeader" style="display: none;">
+            <div class="logo">Local Link</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link" id="homeLink">Home</a>
+                <a href="#" class="nav-link" id="myBookingsLink">My Bookings</a>
+                <a href="#" class="nav-link" id="logoutLink">Logout</a>
+            </div>
+        </header>
+
+        <!-- Auth Section -->
+        <div class="auth-container" id="authContainer">
+            <div class="logo" style="margin-bottom: 30px;">Local Link</div>
+            <div class="auth-box">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">Login</div>
+                    <div class="auth-tab" data-tab="register">Register</div>
+                </div>
+
+                <form class="auth-form active" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUsername">Username or Employee ID</label>
+                        <input type="text" id="loginUsername" placeholder="Enter username or employee ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="auth-btn">Login</button>
+                </form>
+
+                <form class="auth-form" id="registerForm">
+                    <div class="form-group">
+                        <label for="registerUsername">Username</label>
+                        <input type="text" id="registerUsername" placeholder="Choose a username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone">Phone Number</label>
+                        <input type="tel" id="registerPhone" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" placeholder="Choose a password" required>
+                    </div>
+                    <button type="submit" class="auth-btn">Register</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="dashboard" id="dashboard">
+            <h2 class="dashboard-title">What would you like to do?</h2>
+            <div class="options-container">
+                <div class="option-card" id="bookHelperOption">
+                    <div class="option-icon">🛠️</div>
+                    <h3 class="option-title">Book a Helper</h3>
+                    <p class="option-desc">Find professional helpers for your home service needs</p>
+                </div>
+                <div class="option-card" id="workAsHelperOption">
+                    <div class="option-icon">👨‍🔧</div>
+                    <h3 class="option-title">Work as Helper</h3>
+                    <p class="option-desc">Register as a professional helper and find work opportunities</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Helper Section -->
+        <div class="book-helper" id="bookHelperSection">
+            <button class="back-btn" id="backFromBooking">Back to Dashboard</button>
+            <h2 class="section-title">Book a Helper</h2>
+           
+            <div class="service-selection">
+                <h3 style="color: var(--gold-primary); margin-bottom: 25px; text-align: center; font-size: 1.8rem; font-weight: 700;">Select Service Type</h3>
+                <div class="service-grid">
+                    <div class="service-card" data-service="electrician">
+                        <div class="service-icon">⚡</div>
+                        <h4 class="service-name">Electrician</h4>
+                    </div>
+                    <div class="service-card" data-service="plumber">
+                        <div class="service-icon">🚰</div>
+                        <h4 class="service-name">Plumber</h4>
+                    </div>
+                    <div class="service-card" data-service="mechanic">
+                        <div class="service-icon">🔧</div>
+                        <h4 class="service-name">Mechanic</h4>
+                    </div>
+                    <div class="service-card" data-service="ac">
+                        <div class="service-icon">❄️</div>
+                        <h4 class="service-name">AC Technician</h4>
+                    </div>
+                    <div class="service-card" data-service="painter">
+                        <div class="service-icon">🎨</div>
+                        <h4 class="service-name">Painter</h4>
+                    </div>
+                    <div class="service-card" data-service="carpenter">
+                        <div class="service-icon">🔨</div>
+                        <h4 class="service-name">Carpenter</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-form" id="bookingForm" style="display: none;">
+                <h3 style="color: var(--black); margin-bottom: 25px; text-align: center; font-size: 1.8rem; font-weight: 700;">Booking Details</h3>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="bookingDate">Date</label>
+                            <input type="date" id="bookingDate" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="bookingTime">Time</label>
+                            <select id="bookingTime" class="form-group input" style="width: 100%; padding: 15px; border: 2px solid var(--black); border-radius: 8px; background-color: rgba(255, 255, 255, 0.95); color: var(--black); font-size: 1.1rem; font-weight: 600;" required>
+                                <option value="">Select time</option>
+                                <option value="Now">Now (Immediate)</option>
+                                <option value="8:00 AM">8:00 AM</option>
+                                <option value="9:00 AM">9:00 AM</option>
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="11:00 AM">11:00 AM</option>
+                                <option value="12:00 PM">12:00 PM</option>
+                                <option value="1:00 PM">1:00 PM</option>
+                                <option value="2:00 PM">2:00 PM</option>
+                                <option value="3:00 PM">3:00 PM</option>
+                                <option value="4:00 PM">4:00 PM</option>
+                                <option value="5:00 PM">5:00 PM</option>
+                                <option value="6:00 PM">6:00 PM</option>
+                                <option value="7:00 PM">7:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <label>Location Selection</label>
+                    <div class="location-options">
+                        <div class="location-option selected" data-location-type="manual">
+                            📍 Select from List
+                        </div>
+                        <div class="location-option" data-location-type="live">
+                            📱 Use Live Location
+                        </div>
+                    </div>
+                   
+                    <!-- Manual Location Selection -->
+                    <div id="manualLocationSection">
+                        <select id="bookingLocation" class="form-group input" style="width: 100%; padding: 15px; border: 2px solid var(--black); border-radius: 8px; background-color: rgba(255, 255, 255, 0.95); color: var(--black); font-size: 1.1rem; font-weight: 600;" required>
+                            <option value="">Select your location</option>
+                            <option value="Tambaram">Tambaram</option>
+                            <option value="Chromepet">Chromepet</option>
+                            <option value="Vandalur">Vandalur</option>
+                            <option value="Guduvanchery">Guduvanchery</option>
+                            <option value="Avadi">Avadi</option>
+                            <option value="Poonamalle">Poonamalle</option>
+                            <option value="Anna Nagar">Anna Nagar</option>
+                            <option value="Velachery">Velachery</option>
+                            <option value="Guindy">Guindy</option>
+                            <option value="Porur">Porur</option>
+                            <option value="Potheri">Potheri</option>
+                        </select>
+                    </div>
+                   
+                    <!-- Live Location Section -->
+                    <div id="liveLocationSection" style="display: none;">
+                        <button type="button" class="location-btn" id="getLiveLocation">
+                            <span>📍</span>
+                            Get My Current Location
+                        </button>
+                        <div id="locationStatus" class="location-status info">
+                            Click the button above to get your current location
+                        </div>
+                        <input type="hidden" id="liveLocation" value="">
+                        <input type="hidden" id="liveLatitude" value="">
+                        <input type="hidden" id="liveLongitude" value="">
+                    </div>
+                </div>
+               
+                <button class="submit-btn" id="findHelpersBtn">Find Available Helpers</button>
+            </div>
+
+            <div class="helpers-list-container" id="helpersListContainer" style="display: none;">
+                <h3 style="color: var(--black); margin-bottom: 25px; text-align: center; font-size: 1.8rem; font-weight: 700;">Available Helpers</h3>
+                <div class="helpers-list" id="helpersList">
+                    <!-- Helpers will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Work as Helper Section -->
+        <div class="work-helper" id="workAsHelperSection">
+            <button class="back-btn" id="backFromWork">Back to Dashboard</button>
+            <h2 class="section-title">Register as a Helper</h2>
+           
+            <form class="helper-form" id="helperRegistrationForm">
+                <div class="form-group">
+                    <label for="helperName">Full Name</label>
+                    <input type="text" id="helperName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="helperEmployeeId">Employee ID</label>
+                    <input type="text" id="helperEmployeeId" placeholder="Enter your employee ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="helperPhone">Phone Number</label>
+                    <input type="tel" id="helperPhone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="helperService">Service Type</label>
+                    <select id="helperService" class="form-group input" style="width: 100%; padding: 15px; border: 2px solid var(--black); border-radius: 8px; background-color: rgba(255, 255, 255, 0.95); color: var(--black); font-size: 1.1rem; font-weight: 600;" required>
+                        <option value="">Select your service</option>
+                        <option value="electrician">Electrician</option>
+                        <option value="plumber">Plumber</option>
+                        <option value="mechanic">Mechanic</option>
+                        <option value="ac">AC Technician</option>
+                        <option value="painter">Painter</option>
+                        <option value="carpenter">Carpenter</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="helperLocation">Location</label>
+                    <select id="helperLocation" class="form-group input" style="width: 100%; padding: 15px; border: 2px solid var(--black); border-radius: 8px; background-color: rgba(255, 255, 255, 0.95); color: var(--black); font-size: 1.1rem; font-weight: 600;" required>
+                        <option value="">Select your working location</option>
+                        <option value="Tambaram">Tambaram</option>
+                        <option value="Chromepet">Chromepet</option>
+                        <option value="Vandalur">Vandalur</option>
+                        <option value="Guduvanchery">Guduvanchery</option>
+                        <option value="Avadi">Avadi</option>
+                        <option value="Poonamalle">Poonamalle</option>
+                        <option value="Anna Nagar">Anna Nagar</option>
+                        <option value="Velachery">Velachery</option>
+                        <option value="Guindy">Guindy</option>
+                        <option value="Porur">Porur</option>
+                        <option value="Potheri">Potheri</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Register as Helper</button>
+            </form>
+        </div>
+
+        <!-- My Bookings Section -->
+        <div class="my-bookings" id="myBookingsSection">
+            <button class="back-btn" id="backFromBookings">Back to Dashboard</button>
+            <h2 class="section-title">My Bookings</h2>
+           
+            <div class="bookings-list" id="bookingsList">
+                <!-- Bookings will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // DOM Elements
+        const authContainer = document.getElementById('authContainer');
+        const mainHeader = document.getElementById('mainHeader');
+        const dashboard = document.getElementById('dashboard');
+        const bookHelperSection = document.getElementById('bookHelperSection');
+        const workAsHelperSection = document.getElementById('workAsHelperSection');
+        const myBookingsSection = document.getElementById('myBookingsSection');
+       
+        // Navigation links
+        const homeLink = document.getElementById('homeLink');
+        const myBookingsLink = document.getElementById('myBookingsLink');
+        const logoutLink = document.getElementById('logoutLink');
+       
+        // Auth tabs
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authForms = document.querySelectorAll('.auth-form');
+       
+        // Forms
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const helperRegistrationForm = document.getElementById('helperRegistrationForm');
+       
+        // Buttons
+        const bookHelperOption = document.getElementById('bookHelperOption');
+        const workAsHelperOption = document.getElementById('workAsHelperOption');
+        const backFromBooking = document.getElementById('backFromBooking');
+        const backFromWork = document.getElementById('backFromWork');
+        const backFromBookings = document.getElementById('backFromBookings');
+        const findHelpersBtn = document.getElementById('findHelpersBtn');
+       
+        // Location Elements
+        const locationOptions = document.querySelectorAll('.location-option');
+        const manualLocationSection = document.getElementById('manualLocationSection');
+        const liveLocationSection = document.getElementById('liveLocationSection');
+        const getLiveLocationBtn = document.getElementById('getLiveLocation');
+        const locationStatus = document.getElementById('locationStatus');
+        const liveLocationInput = document.getElementById('liveLocation');
+        const liveLatitudeInput = document.getElementById('liveLatitude');
+        const liveLongitudeInput = document.getElementById('liveLongitude');
+       
+        // Other elements
+        const serviceCards = document.querySelectorAll('.service-card');
+        const bookingForm = document.getElementById('bookingForm');
+        const helpersListContainer = document.getElementById('helpersListContainer');
+        const helpersList = document.getElementById('helpersList');
+        const bookingsList = document.getElementById('bookingsList');
+        const notification = document.getElementById('notification');
+        const bookingDate = document.getElementById('bookingDate');
+        const bookingTime = document.getElementById('bookingTime');
+
+        // Data storage (simulating a database)
+        let users = JSON.parse(localStorage.getItem('localLinkUsers')) || [];
+        let helpers = JSON.parse(localStorage.getItem('localLinkHelpers')) || [];
+        let bookings = JSON.parse(localStorage.getItem('localLinkBookings')) || [];
+        let ratings = JSON.parse(localStorage.getItem('localLinkRatings')) || [];
+        let messages = JSON.parse(localStorage.getItem('localLinkMessages')) || [];
+        let currentUser = null;
+        let selectedService = null;
+        let currentLocationType = 'manual'; // 'manual' or 'live'
+
+        // Initialize the app
+        function init() {
+            // Set today's date as default
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            bookingDate.value = formattedDate;
+            bookingDate.min = formattedDate;
+           
+            // Check if user is already logged in
+            const loggedInUser = localStorage.getItem('localLinkCurrentUser');
+            if (loggedInUser) {
+                currentUser = JSON.parse(loggedInUser);
+                showDashboard();
+                mainHeader.style.display = 'flex';
+            }
+        }
+
+        // Location type selection
+        locationOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                locationOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+               
+                currentLocationType = option.getAttribute('data-location-type');
+               
+                if (currentLocationType === 'manual') {
+                    manualLocationSection.style.display = 'block';
+                    liveLocationSection.style.display = 'none';
+                } else {
+                    manualLocationSection.style.display = 'none';
+                    liveLocationSection.style.display = 'block';
+                    resetLiveLocation();
+                    // Auto-detect Potheri location when live location is selected
+                    setTimeout(() => {
+                        detectPotheriLocation();
+                    }, 500);
+                }
+            });
+        });
+
+        // Auto-detect Potheri location
+        function detectPotheriLocation() {
+            updateLocationStatus('Detecting your location...', 'info');
+            getLiveLocationBtn.disabled = true;
+            getLiveLocationBtn.innerHTML = '<span>⏳</span> Detecting Location...';
+
+            // Simulate location detection for Potheri
+            setTimeout(() => {
+                // Potheri coordinates (SRM University area)
+                const potheriLatitude = 12.8232;
+                const potheriLongitude = 80.0444;
+               
+                liveLatitudeInput.value = potheriLatitude;
+                liveLongitudeInput.value = potheriLongitude;
+                liveLocationInput.value = 'Potheri, Tamilnadu';
+               
+                updateLocationStatus('Location found: Potheri, Tamilnadu', 'success');
+                getLiveLocationBtn.innerHTML = '<span>✅</span> Location Found';
+               
+                // Enable find helpers button
+                setTimeout(() => {
+                    getLiveLocationBtn.disabled = false;
+                    getLiveLocationBtn.innerHTML = '<span>📍</span> Get My Current Location';
+                }, 2000);
+            }, 2000);
+        }
+
+        // Get live location (manual trigger)
+        getLiveLocationBtn.addEventListener('click', detectPotheriLocation);
+
+        function updateLocationStatus(message, type) {
+            locationStatus.textContent = message;
+            locationStatus.className = `location-status ${type}`;
+        }
+
+        function resetLiveLocation() {
+            liveLocationInput.value = '';
+            liveLatitudeInput.value = '';
+            liveLongitudeInput.value = '';
+            updateLocationStatus('Click the button above to get your current location', 'info');
+            getLiveLocationBtn.disabled = false;
+            getLiveLocationBtn.innerHTML = '<span>📍</span> Get My Current Location';
+        }
+
+        // Messaging functionality
+        function sendMessage(bookingId, messageText) {
+            const newMessage = {
+                id: Date.now().toString(),
+                bookingId: bookingId,
+                senderId: currentUser.id,
+                message: messageText,
+                timestamp: Date.now(),
+                read: false
+            };
+           
+            messages.push(newMessage);
+            localStorage.setItem('localLinkMessages', JSON.stringify(messages));
+           
+            // Simulate helper response after a delay
+            setTimeout(() => {
+                generateHelperResponse(bookingId, messageText);
+            }, 2000);
+           
+            return newMessage;
+        }
+
+        function generateHelperResponse(bookingId, userMessage) {
+            const booking = bookings.find(b => b.id === bookingId);
+            if (!booking) return;
+           
+            // Analyze user message and generate relevant response
+            const messageLower = userMessage.toLowerCase();
+            let response = "";
+           
+            if (messageLower.includes('delay') || messageLower.includes('late') || messageLower.includes('time')) {
+                response = "I'm on my way and should reach within 15-20 minutes. Traffic is a bit heavy currently.";
+            } else if (messageLower.includes('cost') || messageLower.includes('price') || messageLower.includes('charge')) {
+                response = "The service charge will depend on the work required. I'll assess it when I arrive and provide a quote before starting any work.";
+            } else if (messageLower.includes('cancel') || messageLower.includes('reschedule')) {
+                response = "I can help you reschedule if needed. Please let me know your preferred date and time.";
+            } else if (messageLower.includes('hii') || messageLower.includes('hello')) {
+                response = "Hello! Welcome to Local Link, Happy to help you.";
+            } else if (messageLower.includes('tool') || messageLower.includes('equipment') || messageLower.includes('material')) {
+                response = "I bring all necessary tools and equipment for the job. If any special materials are needed, I'll inform you in advance.";
+            } else if (messageLower.includes('experience') || messageLower.includes('year')) {
+                response = "I have over 5 years of experience in this field and have handled various similar jobs successfully.";
+            } else if (messageLower.includes('urgent') || messageLower.includes('emergency') || messageLower.includes('quick')) {
+                response = "I understand it's urgent. I'll prioritize your request and reach as quickly as possible.";
+            } else if (messageLower.includes('address') || messageLower.includes('location') || messageLower.includes('find')) {
+                response = "Please share your exact location or landmark if different from the booking address. I'll use GPS to navigate.";
+            } else if (messageLower.includes('payment') || messageLower.includes('cash') || messageLower.includes('online')) {
+                response = "I accept both cash and UPI payments. You can pay after the service is completed to your satisfaction.";
+            } else if (messageLower.includes('warranty') || messageLower.includes('guarantee')) {
+                response = "I provide a 30-day service warranty on all repairs. If any issue occurs within this period, I'll fix it free of charge.";
+            } else {
+                // Generic helpful responses
+                const genericResponses = [
+                    "Thank you for your message. I'll be there at the scheduled time.",
+                    "I've noted your query. Is there anything specific about the service you'd like to know?",
+                    "I'm preparing for your service appointment. Please let me know if you have any special requirements.",
+                    "I'll ensure the service is completed to your satisfaction. Feel free to ask any questions.",
+                    "I'm available to discuss your service needs. What would you like to know?"
+                ];
+                response = genericResponses[Math.floor(Math.random() * genericResponses.length)];
+            }
+           
+            const helperResponse = {
+                id: Date.now().toString(),
+                bookingId: bookingId,
+                senderId: booking.helperId,
+                message: response,
+                timestamp: Date.now(),
+                read: false
+            };
+           
+            messages.push(helperResponse);
+            localStorage.setItem('localLinkMessages', JSON.stringify(messages));
+           
+            // Refresh messages display if the chat is open
+            const messageContainer = document.getElementById(`messageContainer-${bookingId}`);
+            if (messageContainer && messageContainer.style.display !== 'none') {
+                displayMessages(bookingId);
+            }
+        }
+
+        function getMessagesForBooking(bookingId) {
+            return messages
+                .filter(m => m.bookingId === bookingId)
+                .sort((a, b) => a.timestamp - b.timestamp);
+        }
+
+        // Setup messaging interface
+        function setupMessagingInterface(bookingId, helperName) {
+            const messageSection = document.createElement('div');
+            messageSection.className = 'message-section';
+            
+            messageSection.innerHTML = `
+                <button class="message-btn" id="toggleMessages-${bookingId}">
+                    <span>💬</span>
+                    Message ${helperName}
+                </button>
+                <div class="message-container" id="messageContainer-${bookingId}" style="display: none;">
+                    <div class="messages-list" id="messagesList-${bookingId}">
+                        <!-- Messages will be populated here -->
+                    </div>
+                    <div class="message-input-container">
+                        <input type="text" class="message-input" id="messageInput-${bookingId}" placeholder="Type your message here...">
+                        <button class="send-message-btn" id="sendMessage-${bookingId}">Send</button>
+                    </div>
+                </div>
+            `;
+           
+            return messageSection;
+        }
+
+        // Setup message handlers
+        function setupMessageHandlers(bookingId, helperName) {
+            const toggleBtn = document.getElementById(`toggleMessages-${bookingId}`);
+            const messageContainer = document.getElementById(`messageContainer-${bookingId}`);
+            const messagesList = document.getElementById(`messagesList-${bookingId}`);
+            const messageInput = document.getElementById(`messageInput-${bookingId}`);
+            const sendBtn = document.getElementById(`sendMessage-${bookingId}`);
+            
+            // Toggle message container
+            toggleBtn.addEventListener('click', () => {
+                const isVisible = messageContainer.style.display !== 'none';
+                messageContainer.style.display = isVisible ? 'none' : 'block';
+                toggleBtn.innerHTML = isVisible ? 
+                    `<span>💬</span> Message ${helperName}` : 
+                    `<span>📂</span> Hide Messages`;
+                
+                if (!isVisible) {
+                    displayMessages(bookingId);
+                }
+            });
+            
+            // Send message
+            function sendMessageHandler() {
+                const messageText = messageInput.value.trim();
+                if (messageText === '') return;
+                
+                sendMessage(bookingId, messageText);
+                messageInput.value = '';
+                displayMessages(bookingId);
+            }
+            
+            sendBtn.addEventListener('click', sendMessageHandler);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessageHandler();
+                }
+            });
+        }
+
+        // Display messages
+        function displayMessages(bookingId) {
+            const messagesList = document.getElementById(`messagesList-${bookingId}`);
+            if (!messagesList) return;
+            
+            const bookingMessages = getMessagesForBooking(bookingId);
+            messagesList.innerHTML = '';
+            
+            if (bookingMessages.length === 0) {
+                messagesList.innerHTML = '<p style="text-align: center; color: var(--gray-dark); font-style: italic;">No messages yet. Start a conversation!</p>';
+                return;
+            }
+            
+            bookingMessages.forEach(message => {
+                const messageElement = document.createElement('div');
+                const isUserMessage = message.senderId === currentUser.id;
+                
+                messageElement.className = `message ${isUserMessage ? 'user' : 'helper'}`;
+                messageElement.innerHTML = `
+                    <div>${message.message}</div>
+                    <div class="message-time">${formatTime(message.timestamp)}</div>
+                `;
+                
+                messagesList.appendChild(messageElement);
+            });
+            
+            // Scroll to bottom
+            messagesList.scrollTop = messagesList.scrollHeight;
+        }
+
+        // Format time for display
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Rating functionality
+        function submitRating(bookingId, ratingValue, comment) {
+            const newRating = {
+                id: Date.now().toString(),
+                bookingId: bookingId,
+                userId: currentUser.id,
+                helperId: bookings.find(b => b.id === bookingId).helperId,
+                rating: ratingValue,
+                comment: comment,
+                timestamp: Date.now()
+            };
+           
+            ratings.push(newRating);
+            localStorage.setItem('localLinkRatings', JSON.stringify(ratings));
+           
+            return newRating;
+        }
+
+        function getRatingForBooking(bookingId) {
+            return ratings.find(r => r.bookingId === bookingId && r.userId === currentUser.id);
+        }
+
+        function getAverageRatingForHelper(helperId) {
+            const helperRatings = ratings.filter(r => r.helperId === helperId);
+            if (helperRatings.length === 0) return 0;
+           
+            const total = helperRatings.reduce((sum, rating) => sum + rating.rating, 0);
+            return (total / helperRatings.length).toFixed(1);
+        }
+
+        function getRatingCountForHelper(helperId) {
+            return ratings.filter(r => r.helperId === helperId).length;
+        }
+
+        // Setup rating interface
+        function setupRatingInterface(bookingId, helperName) {
+            const ratingSection = document.createElement('div');
+            ratingSection.className = 'rating-section';
+            
+            const existingRating = getRatingForBooking(bookingId);
+            
+            if (existingRating) {
+                // Show existing rating from current user
+                ratingSection.innerHTML = `
+                    <div class="rating-display">
+                        <span class="rating-value">Your Rating: ${existingRating.rating}/5</span>
+                        <div class="rating-stars">
+                            ${generateStarsDisplay(existingRating.rating)}
+                        </div>
+                    </div>
+                    ${existingRating.comment ? `
+                        <div class="rating-comment-display">
+                            <strong>Your Comment:</strong> "${existingRating.comment}"
+                        </div>
+                    ` : ''}
+                `;
+            } else {
+                // Show rating form for all users regardless of booking status
+                ratingSection.innerHTML = `
+                    <button class="rating-btn" id="toggleRating-${bookingId}">
+                        <span>⭐</span>
+                        Rate ${helperName}
+                    </button>
+                    <div class="rating-container" id="ratingContainer-${bookingId}" style="display: none;">
+                        <div class="rating-form">
+                            <div class="rating-text">How was your experience with ${helperName}?</div>
+                            <div class="rating-stars" id="ratingStars-${bookingId}">
+                                <span class="star" data-rating="1">★</span>
+                                <span class="star" data-rating="2">★</span>
+                                <span class="star" data-rating="3">★</span>
+                                <span class="star" data-rating="4">★</span>
+                                <span class="star" data-rating="5">★</span>
+                            </div>
+                            <textarea class="rating-comment" id="ratingComment-${bookingId}" placeholder="Optional: Share your experience with this helper..." maxlength="500"></textarea>
+                            <button class="submit-rating-btn" id="submitRating-${bookingId}">Submit Rating</button>
+                        </div>
+                    </div>
+                `;
+            }
+           
+            return ratingSection;
+        }
+
+        // Generate stars for display
+        function generateStarsDisplay(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<span class="star active">★</span>';
+                } else {
+                    stars += '<span class="star">★</span>';
+                }
+            }
+            return stars;
+        }
+
+        // Setup rating handlers
+        function setupRatingHandlers(bookingId, helperName) {
+            const toggleBtn = document.getElementById(`toggleRating-${bookingId}`);
+            const ratingContainer = document.getElementById(`ratingContainer-${bookingId}`);
+            const stars = document.querySelectorAll(`#ratingStars-${bookingId} .star`);
+            const commentInput = document.getElementById(`ratingComment-${bookingId}`);
+            const submitBtn = document.getElementById(`submitRating-${bookingId}`);
+            
+            if (!toggleBtn) return; // No rating button means rating already submitted
+            
+            let selectedRating = 0;
+            
+            // Toggle rating container
+            toggleBtn.addEventListener('click', () => {
+                const isVisible = ratingContainer.style.display !== 'none';
+                ratingContainer.style.display = isVisible ? 'none' : 'block';
+                toggleBtn.innerHTML = isVisible ? 
+                    `<span>⭐</span> Rate ${helperName}` : 
+                    `<span>📂</span> Hide Rating`;
+            });
+            
+            // Star rating selection
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    selectedRating = rating;
+                    
+                    // Update stars display
+                    stars.forEach(s => {
+                        const starRating = parseInt(s.getAttribute('data-rating'));
+                        if (starRating <= rating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseover', () => {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    
+                    stars.forEach(s => {
+                        const starRating = parseInt(s.getAttribute('data-rating'));
+                        if (starRating <= rating) {
+                            s.style.color = 'var(--gold-primary)';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseout', () => {
+                    stars.forEach(s => {
+                        const starRating = parseInt(s.getAttribute('data-rating'));
+                        if (starRating <= selectedRating) {
+                            s.style.color = 'var(--gold-primary)';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+            });
+            
+            // Submit rating
+            submitBtn.addEventListener('click', () => {
+                if (selectedRating === 0) {
+                    showNotification('Please select a rating', 'error');
+                    return;
+                }
+                
+                const comment = commentInput.value.trim();
+                submitRating(bookingId, selectedRating, comment);
+                
+                showNotification('Thank you for your rating!', 'success');
+                
+                // Refresh bookings display
+                displayUserBookings();
+            });
+        }
+
+        // Display helpers with ratings
+        function displayHelpers(helpers, location) {
+            helpersList.innerHTML = '';
+           
+            if (helpers.length === 0) {
+                helpersList.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; color: var(--black);">
+                        <p style="font-weight: 700; font-size: 1.2rem; margin-bottom: 10px;">No helpers available for your criteria</p>
+                        <p style="font-weight: 600; font-size: 1rem;">Location: ${location}</p>
+                        <p style="font-weight: 600; font-size: 1rem;">Service: ${formatServiceName(selectedService)}</p>
+                    </div>
+                `;
+                helpersListContainer.style.display = 'block';
+                return;
+            }
+           
+            helpers.forEach(helper => {
+                const helperCard = document.createElement('div');
+                helperCard.className = 'helper-card';
+               
+                if (helper.isBooked) {
+                    helperCard.classList.add('booked');
+                }
+                
+                const averageRating = getAverageRatingForHelper(helper.id);
+                const ratingCount = getRatingCountForHelper(helper.id);
+               
+                helperCard.innerHTML = `
+                    <h4 class="helper-name">${helper.name}</h4>
+                    <div class="helper-detail">
+                        <span class="detail-label">Employee ID:</span>
+                        <span class="detail-value">${helper.employeeId}</span>
+                    </div>
+                    <div class="helper-detail">
+                        <span class="detail-label">Service:</span>
+                        <span class="detail-value">${formatServiceName(helper.service)}</span>
+                    </div>
+                    <div class="helper-detail">
+                        <span class="detail-label">Location:</span>
+                        <span class="detail-value">${helper.location}</span>
+                    </div>
+                    ${averageRating > 0 ? `
+                        <div class="helper-rating">
+                            <span class="average-rating">${averageRating}/5</span>
+                            <div class="rating-stars">
+                                ${generateStarsDisplay(parseFloat(averageRating))}
+                            </div>
+                            <span class="rating-count">(${ratingCount} ${ratingCount === 1 ? 'rating' : 'ratings'})</span>
+                        </div>
+                    ` : '<div class="helper-rating"><span class="rating-count">No ratings yet</span></div>'}
+                    <button class="book-helper-btn" data-helper-id="${helper.id}" ${helper.isBooked ? 'disabled' : ''}>
+                        ${helper.isBooked ? 'Booked' : 'Book Now'}
+                    </button>
+                `;
+               
+                helpersList.appendChild(helperCard);
+            });
+           
+            helpersListContainer.style.display = 'block';
+           
+            // Add event listeners to book buttons
+            document.querySelectorAll('.book-helper-btn:not(:disabled)').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const helperId = e.target.getAttribute('data-helper-id');
+                    bookHelper(helperId);
+                });
+            });
+        }
+
+        // Display user bookings with rating and messaging options
+        function displayUserBookings() {
+            bookingsList.innerHTML = '';
+           
+            const userBookings = bookings
+                .filter(b => b.userId === currentUser.id)
+                .sort((a, b) => b.timestamp - a.timestamp);
+           
+            if (userBookings.length === 0) {
+                bookingsList.innerHTML = '<p style="text-align: center; color: var(--gold-primary); font-weight: 700; font-size: 1.2rem;">You have no bookings yet</p>';
+                return;
+            }
+           
+            userBookings.forEach(booking => {
+                const helper = helpers.find(h => h.id === booking.helperId);
+                if (!helper) return;
+               
+                const bookingCard = document.createElement('div');
+                bookingCard.className = 'booking-card';
+               
+                const locationInfo = booking.locationType === 'live'
+                    ? `${booking.location} (Live Location)`
+                    : booking.location;
+                
+                const averageRating = getAverageRatingForHelper(helper.id);
+                const ratingCount = getRatingCountForHelper(helper.id);
+               
+                bookingCard.innerHTML = `
+                    <div class="booking-header">
+                        <div class="booking-service">${formatServiceName(booking.service)} Service</div>
+                        <div class="booking-status">${booking.status}</div>
+                    </div>
+                    <div class="booking-details">
+                        <div class="booking-detail">
+                            <span class="booking-label">Helper Name:</span>
+                            <span class="booking-value">${helper.name}</span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="booking-label">Employee ID:</span>
+                            <span class="booking-value">${helper.employeeId}</span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="booking-label">Date:</span>
+                            <span class="booking-value">${booking.date}</span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="booking-label">Time:</span>
+                            <span class="booking-value">${booking.time}</span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="booking-label">Location:</span>
+                            <span class="booking-value">${locationInfo}</span>
+                        </div>
+                    </div>
+                    ${averageRating > 0 ? `
+                        <div class="helper-rating">
+                            <span class="average-rating">${averageRating}/5</span>
+                            <div class="rating-stars">
+                                ${generateStarsDisplay(parseFloat(averageRating))}
+                            </div>
+                            <span class="rating-count">(${ratingCount} ${ratingCount === 1 ? 'rating' : 'ratings'})</span>
+                        </div>
+                    ` : ''}
+                    <div class="helper-phone">Helper Phone: ${helper.phone}</div>
+                `;
+               
+                // Add messaging interface
+                const messageSection = setupMessagingInterface(booking.id, helper.name);
+                bookingCard.appendChild(messageSection);
+               
+                // Add rating interface
+                const ratingSection = setupRatingInterface(booking.id, helper.name);
+                bookingCard.appendChild(ratingSection);
+               
+                bookingsList.appendChild(bookingCard);
+               
+                // Setup message handlers
+                setupMessageHandlers(booking.id, helper.name);
+               
+                // Setup rating handlers
+                setupRatingHandlers(booking.id, helper.name);
+            });
+        }
+
+        // Auth tab switching
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+               
+                authTabs.forEach(t => t.classList.remove('active'));
+                authForms.forEach(f => f.classList.remove('active'));
+               
+                tab.classList.add('active');
+                document.getElementById(`${tabName}Form`).classList.add('active');
+            });
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+           
+            const loginInput = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+           
+            // Check if login input matches username OR employee ID
+            const user = users.find(u =>
+                (u.username === loginInput || u.employeeId === loginInput) &&
+                u.password === password
+            );
+           
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('localLinkCurrentUser', JSON.stringify(user));
+                showNotification('Login successful!', 'success');
+                showDashboard();
+                mainHeader.style.display = 'flex';
+            } else {
+                showNotification('Invalid username/employee ID or password', 'error');
+            }
+        });
+
+        // Register form submission
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+           
+            const username = document.getElementById('registerUsername').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+           
+            // Check if username already exists
+            if (users.some(u => u.username === username)) {
+                showNotification('Username already exists', 'error');
+                return;
+            }
+           
+            const newUser = {
+                id: Date.now().toString(),
+                username,
+                phone,
+                password,
+                isHelper: false,
+                employeeId: null
+            };
+           
+            users.push(newUser);
+            localStorage.setItem('localLinkUsers', JSON.stringify(users));
+           
+            currentUser = newUser;
+            localStorage.setItem('localLinkCurrentUser', JSON.stringify(newUser));
+           
+            showNotification('Registration successful!', 'success');
+            showDashboard();
+            mainHeader.style.display = 'flex';
+        });
+
+        // Helper registration form submission
+        helperRegistrationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+           
+            const name = document.getElementById('helperName').value;
+            const employeeId = document.getElementById('helperEmployeeId').value;
+            const phone = document.getElementById('helperPhone').value;
+            const service = document.getElementById('helperService').value;
+            const location = document.getElementById('helperLocation').value;
+           
+            // Check if employee ID already exists
+            if (users.some(u => u.employeeId === employeeId)) {
+                showNotification('Employee ID already exists', 'error');
+                return;
+            }
+           
+            // Check if helper already exists with this phone
+            if (helpers.some(h => h.phone === phone && h.userId === currentUser.id)) {
+                showNotification('You are already registered as a helper', 'error');
+                return;
+            }
+           
+            // Update current user with employee ID
+            currentUser.employeeId = employeeId;
+            currentUser.isHelper = true;
+            users = users.map(u => u.id === currentUser.id ? currentUser : u);
+            localStorage.setItem('localLinkUsers', JSON.stringify(users));
+            localStorage.setItem('localLinkCurrentUser', JSON.stringify(currentUser));
+           
+            const newHelper = {
+                id: Date.now().toString(),
+                userId: currentUser.id,
+                name,
+                employeeId,
+                phone,
+                service,
+                location,
+                available: true
+            };
+           
+            helpers.push(newHelper);
+            localStorage.setItem('localLinkHelpers', JSON.stringify(helpers));
+           
+            showNotification('Helper registration successful!', 'success');
+            showDashboard();
+        });
+
+        // Service card selection
+        serviceCards.forEach(card => {
+            card.addEventListener('click', () => {
+                serviceCards.forEach(c => {
+                    c.classList.remove('selected');
+                    c.style.backgroundColor = '';
+                    c.style.color = '';
+                });
+                card.classList.add('selected');
+                card.style.backgroundColor = 'var(--white)';
+                card.style.color = 'var(--black)';
+               
+                selectedService = card.getAttribute('data-service');
+                bookingForm.style.display = 'block';
+            });
+        });
+
+        // Find available helpers
+        findHelpersBtn.addEventListener('click', () => {
+            const date = document.getElementById('bookingDate').value;
+            const time = document.getElementById('bookingTime').value;
+            let location = '';
+           
+            if (currentLocationType === 'manual') {
+                location = document.getElementById('bookingLocation').value;
+                if (!location) {
+                    showNotification('Please select a location from the list', 'error');
+                    return;
+                }
+            } else {
+                location = liveLocationInput.value;
+                if (!location) {
+                    showNotification('Please get your current location first', 'error');
+                    return;
+                }
+            }
+           
+            if (!date || !time || !location) {
+                showNotification('Please fill all booking details', 'error');
+                return;
+            }
+           
+            // Extract the main location name (remove any additional info)
+            const mainLocation = location.split(',')[0].trim();
+           
+            // Get available helpers for this service and location
+            const availableHelpers = helpers.filter(h =>
+                h.service === selectedService &&
+                h.location === mainLocation
+            );
+           
+            // Mark helpers as booked if they have a booking at this time (+/- 1 hour)
+            const helpersWithAvailability = availableHelpers.map(helper => {
+                return {
+                    ...helper,
+                    isBooked: isHelperBooked(helper.id, date, time)
+                };
+            });
+           
+            displayHelpers(helpersWithAvailability, location);
+        });
+
+        // Check if helper is booked for a specific date and time
+        function isHelperBooked(helperId, date, time) {
+            if (time === 'Now') {
+                const today = new Date().toISOString().split('T')[0];
+                return bookings.some(b =>
+                    b.helperId === helperId &&
+                    b.date === today
+                );
+            }
+           
+            const time24 = convertTo24Hour(time);
+            const timeNum = parseInt(time24.split(':')[0]);
+           
+            return bookings.some(b => {
+                if (b.helperId !== helperId || b.date !== date) return false;
+               
+                const bookedTime24 = convertTo24Hour(b.time);
+                const bookedTimeNum = parseInt(bookedTime24.split(':')[0]);
+               
+                return Math.abs(timeNum - bookedTimeNum) < 1;
+            });
+        }
+
+        // Convert AM/PM time to 24-hour format
+        function convertTo24Hour(timeStr) {
+            if (timeStr === 'Now') {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                return `${hours}:${minutes}`;
+            }
+           
+            const [time, modifier] = timeStr.split(' ');
+            let [hours, minutes] = time.split(':');
+           
+            if (hours === '12') {
+                hours = '00';
+            }
+           
+            if (modifier === 'PM') {
+                hours = parseInt(hours, 10) + 12;
+            }
+           
+            return `${hours}:${minutes}`;
+        }
+
+        // Book a helper
+        function bookHelper(helperId) {
+            const helper = helpers.find(h => h.id === helperId);
+            if (!helper) return;
+           
+            let location = '';
+            let locationType = '';
+           
+            if (currentLocationType === 'manual') {
+                location = document.getElementById('bookingLocation').value;
+                locationType = 'manual';
+            } else {
+                location = liveLocationInput.value;
+                locationType = 'live';
+            }
+           
+            const newBooking = {
+                id: Date.now().toString(),
+                userId: currentUser.id,
+                helperId: helper.id,
+                helperName: helper.name,
+                helperEmployeeId: helper.employeeId,
+                helperPhone: helper.phone,
+                service: selectedService,
+                date: document.getElementById('bookingDate').value,
+                time: document.getElementById('bookingTime').value,
+                location: location,
+                locationType: locationType,
+                latitude: liveLatitudeInput.value || null,
+                longitude: liveLongitudeInput.value || null,
+                status: 'confirmed',
+                timestamp: Date.now()
+            };
+           
+            bookings.push(newBooking);
+            localStorage.setItem('localLinkBookings', JSON.stringify(bookings));
+           
+            showNotification(`Booking confirmed with ${helper.name}! Helper Phone: ${helper.phone}`, 'success');
+           
+            setTimeout(() => {
+                showNotification(`Helper ${helper.name} has been notified of your booking`, 'info');
+            }, 1500);
+           
+            // Refresh helpers list
+            const date = document.getElementById('bookingDate').value;
+            const time = document.getElementById('bookingTime').value;
+            const mainLocation = location.split(',')[0].trim();
+           
+            const availableHelpers = helpers
+                .filter(h => h.service === selectedService && h.location === mainLocation)
+                .map(helper => ({
+                    ...helper,
+                    isBooked: isHelperBooked(helper.id, date, time)
+                }));
+           
+            displayHelpers(availableHelpers, location);
+        }
+
+        // Navigation functions
+        function showDashboard() {
+            authContainer.style.display = 'none';
+            dashboard.style.display = 'block';
+            bookHelperSection.style.display = 'none';
+            workAsHelperSection.style.display = 'none';
+            myBookingsSection.style.display = 'none';
+        }
+
+        function showBookHelper() {
+            dashboard.style.display = 'none';
+            bookHelperSection.style.display = 'block';
+            workAsHelperSection.style.display = 'none';
+            myBookingsSection.style.display = 'none';
+           
+            // Reset booking form
+            serviceCards.forEach(c => {
+                c.classList.remove('selected');
+                c.style.backgroundColor = '';
+                c.style.color = '';
+            });
+            bookingForm.style.display = 'none';
+            helpersListContainer.style.display = 'none';
+            selectedService = null;
+           
+            // Reset location to manual selection
+            locationOptions.forEach(opt => opt.classList.remove('selected'));
+            document.querySelector('[data-location-type="manual"]').classList.add('selected');
+            manualLocationSection.style.display = 'block';
+            liveLocationSection.style.display = 'none';
+            currentLocationType = 'manual';
+            resetLiveLocation();
+        }
+
+        function showWorkAsHelper() {
+            dashboard.style.display = 'none';
+            bookHelperSection.style.display = 'none';
+            workAsHelperSection.style.display = 'block';
+            myBookingsSection.style.display = 'none';
+        }
+
+        function showMyBookings() {
+            dashboard.style.display = 'none';
+            bookHelperSection.style.display = 'none';
+            workAsHelperSection.style.display = 'none';
+            myBookingsSection.style.display = 'block';
+           
+            displayUserBookings();
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('localLinkCurrentUser');
+            showNotification('Logged out successfully', 'success');
+           
+            authContainer.style.display = 'flex';
+            mainHeader.style.display = 'none';
+            dashboard.style.display = 'none';
+            bookHelperSection.style.display = 'none';
+            workAsHelperSection.style.display = 'none';
+            myBookingsSection.style.display = 'none';
+           
+            // Reset forms
+            loginForm.reset();
+            registerForm.reset();
+        }
+
+        // Event listeners for navigation
+        bookHelperOption.addEventListener('click', showBookHelper);
+        workAsHelperOption.addEventListener('click', showWorkAsHelper);
+        backFromBooking.addEventListener('click', showDashboard);
+        backFromWork.addEventListener('click', showDashboard);
+        backFromBookings.addEventListener('click', showDashboard);
+        homeLink.addEventListener('click', showDashboard);
+        myBookingsLink.addEventListener('click', showMyBookings);
+        logoutLink.addEventListener('click', logout);
+
+        // Helper functions
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = 'notification';
+            notification.classList.add(type);
+            notification.classList.add('show');
+           
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function formatServiceName(service) {
+            return service.charAt(0).toUpperCase() + service.slice(1).replace(/([A-Z])/g, ' $1');
+        }
+
+        // Initialize the app
+        init();
+
+        // Sample data for testing - Added Potheri helpers
+        if (users.length === 0) {
+            users = [
+                {
+                    id: '1',
+                    username: 'testuser',
+                    phone: '9876543210',
+                    password: 'password',
+                    isHelper: false,
+                    employeeId: null
+                },
+                {
+                    id: '2',
+                    username: 'testhelper',
+                    phone: '9876543211',
+                    password: 'password',
+                    isHelper: true,
+                    employeeId: 'EMP001'
+                },
+                {
+                    id: '3',
+                    username: 'user2',
+                    phone: '9876543222',
+                    password: 'password',
+                    isHelper: false,
+                    employeeId: null
+                }
+            ];
+            localStorage.setItem('localLinkUsers', JSON.stringify(users));
+        }
+
+        if (helpers.length === 0) {
+            helpers = [
+                {
+                    id: '101',
+                    userId: '2',
+                    name: 'John ',
+                    employeeId: 'EMP001',
+                    phone: '9876543211',
+                    service: 'electrician',
+                    location: 'Potheri',
+                    available: true
+                },
+                {
+                    id: '102',
+                    userId: '2',
+                    name: 'Madhan',
+                    employeeId: 'EMP002',
+                    phone: '9876543212',
+                    service: 'plumber',
+                    location: 'Potheri',
+                    available: true
+                },
+                {
+                    id: '103',
+                    userId: '2',
+                    name: 'Aravindh',
+                    employeeId: 'EMP003',
+                    phone: '9876543213',
+                    service: 'mechanic',
+                    location: 'Potheri',
+                    available: true
+                },
+                {
+                    id: '104',
+                    userId: '2',
+                    name: 'Sam',
+                    employeeId: 'EMP004',
+                    phone: '9876543214',
+                    service: 'ac',
+                    location: 'Potheri',
+                    available: true
+                },
+                {
+                    id: '105',
+                    userId: '2',
+                    name: 'Darshan',
+                    employeeId: 'EMP005',
+                    phone: '9876543215',
+                    service: 'painter',
+                    location: 'Tambaram',
+                    available: true
+                },
+                {
+                    id: '106',
+                    userId: '2',
+                    name: 'Hari',
+                    employeeId: 'EMP006',
+                    phone: '9876543216',
+                    service: 'carpenter',
+                    location: 'Chromepet',
+                    available: true
+                }
+            ];
+            localStorage.setItem('localLinkHelpers', JSON.stringify(helpers));
+        }
+
+        if (bookings.length === 0) {
+            bookings = [
+                {
+                    id: '201',
+                    userId: '1',
+                    helperId: '101',
+                    helperName: 'John',
+                    helperEmployeeId: 'EMP001',
+                    helperPhone: '9876543211',
+                    service: 'electrician',
+                    date: '2023-06-15',
+                    time: '10:00 AM',
+                    location: 'Tambaram',
+                    locationType: 'manual',
+                    latitude: null,
+                    longitude: null,
+                    status: 'completed',
+                    timestamp: Date.now() - 86400000
+                },
+                {
+                    id: '202',
+                    userId: '1',
+                    helperId: '102',
+                    helperName: 'Madhan',
+                    helperEmployeeId: 'EMP002',
+                    helperPhone: '9876543212',
+                    service: 'plumber',
+                    date: '2023-06-20',
+                    time: '2:00 PM',
+                    location: 'Chromepet',
+                    locationType: 'manual',
+                    latitude: null,
+                    longitude: null,
+                    status: 'confirmed',
+                    timestamp: Date.now()
+                }
+            ];
+            localStorage.setItem('localLinkBookings', JSON.stringify(bookings));
+        }
+
+        // Initialize ratings if empty
+        if (ratings.length === 0) {
+            localStorage.setItem('localLinkRatings', JSON.stringify(ratings));
+        }
+
+        // Initialize messages if empty
+        if (messages.length === 0) {
+            localStorage.setItem('localLinkMessages', JSON.stringify(messages));
+        }
+    </script>
+</body>
+</html>
